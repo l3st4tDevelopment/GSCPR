@@ -1,11 +1,23 @@
-oauthToken: INSERT-TOKEN-HERE
-broadcasterId: INSERT-ID-HERE
-clientId: INSERT-APP-ID-HERE
-channelName: ventruefern
+## Authentication Settings
+appId: INSERT-ID-HERE
+appSecret: INSERT-APP-SECRET-HERE
+broadcasterId: INSERT-BROADCASTER-ID
+oauthToken: INSERT-OAUTH-TOKEN-HERE
 
+## Which port should the application use?
+port: 8000
+
+## Use Ngrok if you are using this in a local machine.
+useNgrok: true
+ngrokKey: INSERT-NGROK-API-KEY
+
+## Not used if Ngrok is enabled.
+callbackUrl: https://example.com
+
+## Game Settings
 games:
   overwatch:
-    name: Overwatch
+    name: Overwatch 2
     rewards:
       'chooseSkin':
         title: Choose my Skin
