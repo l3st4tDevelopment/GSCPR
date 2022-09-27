@@ -1,0 +1,15 @@
+oauthToken: INSERT-TOKEN-HERE
+broadcasterId: INSERT-ID-HERE
+clientId: INSERT-APP-ID-HERE
+channelName: ventruefern
+
+games:
+  overwatch:
+    name: Overwatch
+    rewards:
+      'chooseSkin':
+        title: Choose my Skin
+        skipRequestQueue: false
+        prompt: Choose my Moira skin for the next game!
+        userInputRequired: true
+        cost: 1000
