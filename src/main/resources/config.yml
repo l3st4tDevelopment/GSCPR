@@ -9,7 +9,6 @@ port: 8000
 
 ## Use Ngrok if you are using this in a local machine.
 useNgrok: true
-ngrokKey: INSERT-NGROK-API-KEY
 
 ## Not used if Ngrok is enabled.
 callbackUrl: https://example.com

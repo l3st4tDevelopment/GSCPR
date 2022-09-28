@@ -77,7 +77,6 @@ public class GSCPR {
                 })).post("/webhooks/callback", ctx -> {
                     final String msgId = ctx.header("Twitch-Eventsub-Message-Id");
                     final String time = ctx.header("Twitch-Eventsub-Message-Timestamp");
-                    logger.info(msgId + " / " + time);
                     if (verifyMessageId(msgId)
                             && verifyTimestamp(time)
                             && verifySignature(clientSecret, msgId, time, ctx.bodyAsBytes(), ctx.header("Twitch-Eventsub-Message-Signature"))) {
@@ -111,6 +110,8 @@ public class GSCPR {
         }else{
             callback = config.getString("callbackUrl");
         }
+
+        callback += "/webhooks/callback";
 
         twitchClient.getHelix().createEventSubSubscription(null, SubscriptionTypes.STREAM_ONLINE.prepareSubscription(builder ->
                 builder.broadcasterUserId(broadcasterId).build(),
@@ -184,7 +185,6 @@ public class GSCPR {
     private void updateRewards(String oauthToken, String broadcasterId, String gameId) {
         for (CustomReward customReward : twitchClient.getHelix().getCustomRewards(oauthToken, broadcasterId, null, true).execute().getRewards()) {
             if (rewards.values().stream().anyMatch(otherReward -> otherReward.getTitle().equalsIgnoreCase(customReward.getTitle()))) {
-                logger.info("Deleting reward " + customReward.getId());
                 twitchClient.getHelix().deleteCustomReward(oauthToken, broadcasterId, customReward.getId()).execute();
             }
         }
