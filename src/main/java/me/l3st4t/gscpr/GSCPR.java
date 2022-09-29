@@ -113,22 +113,26 @@ public class GSCPR {
 
         callback += "/webhooks/callback";
 
+
+        String oauthToken = config.getString("oauthToken");
+        twitchClient.getHelix().getEventSubSubscriptions(null, null, null, null, null, 50).execute().getSubscriptions().forEach(subscription -> {
+            twitchClient.getHelix().deleteEventSubSubscription(null, subscription.getId()).execute();
+        });
+
         twitchClient.getHelix().createEventSubSubscription(null, SubscriptionTypes.STREAM_ONLINE.prepareSubscription(builder ->
-                builder.broadcasterUserId(broadcasterId).build(),
+                        builder.broadcasterUserId(broadcasterId).build(),
                 EventSubTransport.builder()
                         .callback(callback)
                         .method(EventSubTransportMethod.WEBHOOK)
                         .secret(clientSecret).build())).execute();
 
         twitchClient.getHelix().createEventSubSubscription(null, SubscriptionTypes.CHANNEL_UPDATE.prepareSubscription(builder ->
-                builder.broadcasterUserId(broadcasterId).build(),
+                        builder.broadcasterUserId(broadcasterId).build(),
                 EventSubTransport.builder()
                         .callback(callback)
                         .method(EventSubTransportMethod.WEBHOOK)
                         .secret(clientSecret).build())).execute();
 
-
-        String oauthToken = config.getString("oauthToken");
         for (String key : config.getSection("games").getRoutesAsStrings(false)) {
             String gameName = config.getString("games." + key + ".name");
             GameList resultList = twitchClient.getHelix().getGames(oauthToken, null, Arrays.asList(gameName)).execute();
